@@ -433,3 +433,114 @@ a:focus {
     font-size: 0.875rem;
     color: var(--color-gray-600);
 }
+
+/* Enhanced carousel animations and effects */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Smooth focus transitions */
+.carousel-focusable:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+}
+
+/* Reduced motion support for all carousels */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .demo-slide,
+    .radio-slide,
+    .grid-card {
+        transform: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .play-pause-btn,
+    .nav-btn,
+    .control-label {
+        border: 2px solid currentColor;
+    }
+    
+    .progress-bar,
+    .progress-fill,
+    .auto-progress {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Print styles for carousel pages */
+@media print {
+    .carousel-controls,
+    .nav-controls,
+    .play-controls,
+    .play-pause-btn,
+    .progress-container,
+    .progress-indicator,
+    .pause-indicator {
+        display: none !important;
+    }
+    
+    .demo-carousel,
+    .carousel-track {
+        overflow: visible !important;
+        display: block !important;
+    }
+    
+    .demo-slide,
+    .radio-slide,
+    .grid-card {
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        flex: none !important;
+    }
+}
