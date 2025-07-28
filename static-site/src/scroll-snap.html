@@ -17,6 +17,7 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            position: relative;
         }
         
         .demo-carousel::-webkit-scrollbar {
@@ -35,11 +36,81 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-slide:hover {
+            transform: scale(1.05);
         }
         
         .demo-slide h3 {
             color: white;
             margin-bottom: 1rem;
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .play-pause-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .play-pause-btn:hover {
+            background: var(--color-primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .progress-indicator {
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--color-primary);
+            border-radius: 2px;
+            transition: width 0.1s ease;
+        }
+        
+        .slide-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-gray-300);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: var(--color-primary);
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -56,9 +127,13 @@
         <section class="section">
             <div class="container">
                 <h1>CSS Scroll Snap Carousel</h1>
-                <p>This carousel uses native browser scrolling with CSS scroll snap for smooth navigation.</p>
+                <p>This carousel uses native browser scrolling with CSS scroll snap. <strong>Hover to pause auto-rotation.</strong></p>
                 
-                <div class="demo-carousel">
+                <div class="demo-carousel" id="scrollSnapCarousel">
+                    <div class="progress-indicator">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    
                     <div class="demo-slide">
                         <h3>Slide 1</h3>
                         <p>Native browser scrolling with smooth snap points. Excellent performance and mobile-friendly.</p>
@@ -77,11 +152,214 @@
                     </div>
                 </div>
                 
+                <div class="carousel-controls">
+                    <button class="play-pause-btn" id="playPauseBtn">
+                        <span id="playPauseIcon">⏸</span>
+                        <span id="playPauseText">Pause</span>
+                    </button>
+                </div>
+                
+                <div class="slide-indicators" id="slideIndicators"></div>
+                
                 <div style="text-align: center; margin-top: 2rem;">
                     <a href="index.html" class="btn btn--primary">← Back to Overview</a>
                 </div>
             </div>
         </section>
     </main>
+
+    <script>
+        class ScrollSnapCarousel {
+            constructor(selector) {
+                this.carousel = document.querySelector(selector);
+                this.slides = this.carousel.querySelectorAll('.demo-slide');
+                this.playPauseBtn = document.getElementById('playPauseBtn');
+                this.playPauseIcon = document.getElementById('playPauseIcon');
+                this.playPauseText = document.getElementById('playPauseText');
+                this.progressBar = document.getElementById('progressBar');
+                this.slideIndicators = document.getElementById('slideIndicators');
+                
+                this.currentSlide = 0;
+                this.isPlaying = true;
+                this.autoRotateInterval = null;
+                this.progressInterval = null;
+                this.rotationDuration = 4000; // 4 seconds per slide
+                
+                this.init();
+            }
+            
+            init() {
+                this.createIndicators();
+                this.setupEventListeners();
+                this.startAutoRotation();
+                this.updateActiveIndicator();
+            }
+            
+            createIndicators() {
+                this.slides.forEach((_, index) => {
+                    const indicator = document.createElement('div');
+                    indicator.classList.add('indicator');
+                    if (index === 0) indicator.classList.add('active');
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                    this.slideIndicators.appendChild(indicator);
+                });
+            }
+            
+            setupEventListeners() {
+                // Play/Pause button
+                this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+                
+                // Hover pause
+                this.carousel.addEventListener('mouseenter', () => this.pauseOnHover());
+                this.carousel.addEventListener('mouseleave', () => this.resumeFromHover());
+                
+                // Keyboard controls
+                this.carousel.addEventListener('keydown', (e) => this.handleKeydown(e));
+                
+                // Scroll detection for manual navigation
+                this.carousel.addEventListener('scroll', () => this.handleScroll());
+                
+                // Make carousel focusable
+                this.carousel.setAttribute('tabindex', '0');
+            }
+            
+            startAutoRotation() {
+                if (this.autoRotateInterval) return;
+                
+                this.autoRotateInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.rotationDuration);
+                
+                this.startProgressBar();
+            }
+            
+            stopAutoRotation() {
+                if (this.autoRotateInterval) {
+                    clearInterval(this.autoRotateInterval);
+                    this.autoRotateInterval = null;
+                }
+                this.stopProgressBar();
+            }
+            
+            startProgressBar() {
+                if (this.progressInterval) return;
+                
+                let progress = 0;
+                const increment = 100 / (this.rotationDuration / 50); // Update every 50ms
+                
+                this.progressInterval = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 0;
+                    }
+                    this.progressBar.style.width = `${progress}%`;
+                }, 50);
+            }
+            
+            stopProgressBar() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                this.goToSlide(this.currentSlide);
+            }
+            
+            goToSlide(index) {
+                this.currentSlide = index;
+                const slideWidth = this.slides[0].offsetWidth + 16; // Include gap
+                this.carousel.scrollTo({
+                    left: index * slideWidth,
+                    behavior: 'smooth'
+                });
+                this.updateActiveIndicator();
+                
+                // Reset progress bar
+                if (this.isPlaying) {
+                    this.stopProgressBar();
+                    this.progressBar.style.width = '0%';
+                    setTimeout(() => this.startProgressBar(), 100);
+                }
+            }
+            
+            updateActiveIndicator() {
+                const indicators = this.slideIndicators.querySelectorAll('.indicator');
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+            
+            togglePlayPause() {
+                if (this.isPlaying) {
+                    this.pause();
+                } else {
+                    this.play();
+                }
+            }
+            
+            play() {
+                this.isPlaying = true;
+                this.startAutoRotation();
+                this.playPauseIcon.textContent = '⏸';
+                this.playPauseText.textContent = 'Pause';
+            }
+            
+            pause() {
+                this.isPlaying = false;
+                this.stopAutoRotation();
+                this.playPauseIcon.textContent = '▶';
+                this.playPauseText.textContent = 'Play';
+                this.progressBar.style.width = '0%';
+            }
+            
+            pauseOnHover() {
+                if (this.isPlaying) {
+                    this.stopAutoRotation();
+                }
+            }
+            
+            resumeFromHover() {
+                if (this.isPlaying) {
+                    this.startAutoRotation();
+                }
+            }
+            
+            handleScroll() {
+                // Detect which slide is currently visible
+                const slideWidth = this.slides[0].offsetWidth + 16;
+                const newSlideIndex = Math.round(this.carousel.scrollLeft / slideWidth);
+                
+                if (newSlideIndex !== this.currentSlide) {
+                    this.currentSlide = newSlideIndex;
+                    this.updateActiveIndicator();
+                }
+            }
+            
+            handleKeydown(e) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        this.goToSlide((this.currentSlide - 1 + this.slides.length) % this.slides.length);
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        this.goToSlide((this.currentSlide + 1) % this.slides.length);
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        this.togglePlayPause();
+                        break;
+                }
+            }
+        }
+        
+        // Initialize carousel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollSnapCarousel('#scrollSnapCarousel');
+        });
+    </script>
 </body>
 </html>

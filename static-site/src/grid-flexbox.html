@@ -27,6 +27,7 @@
             padding: 1rem 0;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            position: relative;
         }
         
         .carousel-track::-webkit-scrollbar {
@@ -39,14 +40,19 @@
             border-radius: 0.75rem;
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             min-width: 280px;
+            transform: translateZ(0);
         }
         
         .grid-card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-12px) scale(1.03) translateZ(0);
             box-shadow: var(--shadow-xl);
+        }
+        
+        .grid-carousel:not(:hover) .grid-card {
+            transition-duration: 0.6s;
         }
         
         .card-image {
@@ -57,15 +63,50 @@
             justify-content: center;
             color: white;
             font-size: 2rem;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
         }
         
         .grid-card:hover .card-image {
             transform: scale(1.1);
         }
         
+        .grid-card:hover .card-image::before {
+            left: 100%;
+        }
+        
         .card-content {
             padding: 1.5rem;
+            position: relative;
+        }
+        
+        .card-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), #4ECDC4);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .grid-card:hover .card-content::before {
+            transform: scaleX(1);
         }
         
         .card-content h3 {
@@ -82,12 +123,18 @@
             color: var(--color-gray-600);
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .grid-card:hover .card-content p {
+            color: var(--color-gray-700);
         }
         
         .card-tags {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
         
         .tag {
@@ -97,11 +144,19 @@
             border-radius: 1rem;
             font-size: 0.75rem;
             font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .grid-card:hover .tag {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
         }
         
         .nav-controls {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 1rem;
             margin-top: 1.5rem;
         }
@@ -110,19 +165,105 @@
             background: var(--color-primary);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-md);
         }
         
         .nav-btn:hover {
             background: var(--color-primary-dark);
-            transform: scale(1.1);
+            transform: scale(1.15);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .play-pause-btn {
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .play-pause-btn:hover {
+            background: var(--color-gray-700);
+            transform: scale(1.05);
+        }
+        
+        .progress-container {
+            margin-top: 1rem;
+            background: var(--color-gray-200);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary), #4ECDC4);
+            border-radius: 3px;
+            transition: width 0.1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+            border-radius: 3px;
+        }
+        
+        .slide-counter {
+            text-align: center;
+            color: var(--color-gray-600);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Auto-rotation pause indicator */
+        .pause-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .pause-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -139,9 +280,13 @@
         <section class="section">
             <div class="container">
                 <h1>Grid/Flexbox Interactive Carousel</h1>
-                <p>This carousel combines CSS Grid layout with rich hover effects and interactive elements.</p>
+                <p>Modern layout with rich hover effects and auto-rotation. <strong>Hover to pause auto-rotation.</strong></p>
                 
-                <div class="grid-carousel">
+                <div class="grid-carousel" id="gridCarouselContainer">
+                    <div class="pause-indicator" id="pauseIndicator">
+                        ⏸ Paused on hover
+                    </div>
+                    
                     <div class="carousel-track" id="gridCarousel">
                         <div class="grid-card">
                             <div class="card-image">🎯</div>
@@ -202,11 +347,35 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="grid-card">
+                            <div class="card-image">📱</div>
+                            <div class="card-content">
+                                <h3>Mobile First</h3>
+                                <p>Touch-friendly interface with responsive breakpoints for all devices.</p>
+                                <div class="card-tags">
+                                    <span class="tag">Mobile</span>
+                                    <span class="tag">Touch</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="nav-controls">
-                        <button class="nav-btn" onclick="scrollCarousel(-1)">←</button>
-                        <button class="nav-btn" onclick="scrollCarousel(1)">→</button>
+                        <button class="nav-btn" id="prevBtn" onclick="gridCarouselInstance.scrollPrev()">←</button>
+                        <button class="play-pause-btn" id="gridPlayPauseBtn">
+                            <span id="gridPlayPauseIcon">⏸</span>
+                            <span id="gridPlayPauseText">Pause</span>
+                        </button>
+                        <button class="nav-btn" id="nextBtn" onclick="gridCarouselInstance.scrollNext()">→</button>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-fill" id="gridProgressFill"></div>
+                    </div>
+                    
+                    <div class="slide-counter" id="slideCounter">
+                        1 of 6
                     </div>
                 </div>
                 
@@ -218,14 +387,278 @@
     </main>
     
     <script>
-        function scrollCarousel(direction) {
-            const carousel = document.getElementById('gridCarousel');
-            const scrollAmount = 300;
-            carousel.scrollBy({
-                left: direction * scrollAmount,
-                behavior: 'smooth'
-            });
+        class GridFlexboxCarousel {
+            constructor(selector) {
+                this.carousel = document.querySelector(selector);
+                this.container = document.getElementById('gridCarouselContainer');
+                this.cards = this.carousel.querySelectorAll('.grid-card');
+                this.playPauseBtn = document.getElementById('gridPlayPauseBtn');
+                this.playPauseIcon = document.getElementById('gridPlayPauseIcon');
+                this.playPauseText = document.getElementById('gridPlayPauseText');
+                this.progressFill = document.getElementById('gridProgressFill');
+                this.slideCounter = document.getElementById('slideCounter');
+                this.pauseIndicator = document.getElementById('pauseIndicator');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                
+                this.currentIndex = 0;
+                this.isPlaying = true;
+                this.autoRotateInterval = null;
+                this.progressInterval = null;
+                this.rotationDuration = 4000; // 4 seconds per scroll
+                this.scrollAmount = 320; // Approximate card width + gap
+                this.totalCards = this.cards.length;
+                this.maxScrollLeft = this.carousel.scrollWidth - this.carousel.clientWidth;
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.startAutoRotation();
+                this.updateSlideCounter();
+                this.updateNavigationButtons();
+            }
+            
+            setupEventListeners() {
+                // Play/Pause button
+                this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+                
+                // Hover pause with indicator
+                this.container.addEventListener('mouseenter', () => this.pauseOnHover());
+                this.container.addEventListener('mouseleave', () => this.resumeFromHover());
+                
+                // Scroll detection
+                this.carousel.addEventListener('scroll', () => this.handleScroll());
+                
+                // Keyboard navigation
+                this.carousel.addEventListener('keydown', (e) => this.handleKeydown(e));
+                
+                // Touch/swipe detection
+                this.setupTouchEvents();
+                
+                // Card click events
+                this.cards.forEach((card, index) => {
+                    card.addEventListener('click', () => this.goToCard(index));
+                });
+                
+                // Make carousel focusable
+                this.carousel.setAttribute('tabindex', '0');
+            }
+            
+            setupTouchEvents() {
+                let startX = 0;
+                let startY = 0;
+                let isScrolling = false;
+                
+                this.carousel.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    isScrolling = false;
+                }, { passive: true });
+                
+                this.carousel.addEventListener('touchmove', (e) => {
+                    if (isScrolling) return;
+                    
+                    const deltaX = Math.abs(e.touches[0].clientX - startX);
+                    const deltaY = Math.abs(e.touches[0].clientY - startY);
+                    
+                    if (deltaX > deltaY && deltaX > 30) {
+                        isScrolling = true;
+                        // Reset auto-rotation on swipe
+                        if (this.isPlaying) {
+                            this.resetAutoRotation();
+                        }
+                    }
+                }, { passive: true });
+            }
+            
+            startAutoRotation() {
+                if (this.autoRotateInterval) return;
+                
+                this.autoRotateInterval = setInterval(() => {
+                    this.scrollNext();
+                }, this.rotationDuration);
+                
+                this.startProgressBar();
+            }
+            
+            stopAutoRotation() {
+                if (this.autoRotateInterval) {
+                    clearInterval(this.autoRotateInterval);
+                    this.autoRotateInterval = null;
+                }
+                this.stopProgressBar();
+            }
+            
+            resetAutoRotation() {
+                if (this.isPlaying) {
+                    this.stopAutoRotation();
+                    this.startAutoRotation();
+                }
+            }
+            
+            startProgressBar() {
+                if (this.progressInterval) return;
+                
+                let progress = 0;
+                const increment = 100 / (this.rotationDuration / 50);
+                
+                this.progressInterval = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 0;
+                    }
+                    this.progressFill.style.width = `${progress}%`;
+                }, 50);
+            }
+            
+            stopProgressBar() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+            
+            scrollNext() {
+                const currentScroll = this.carousel.scrollLeft;
+                const newScroll = Math.min(currentScroll + this.scrollAmount, this.maxScrollLeft);
+                
+                // If we've reached the end, scroll back to the beginning
+                if (newScroll >= this.maxScrollLeft) {
+                    this.carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                    this.currentIndex = 0;
+                } else {
+                    this.carousel.scrollTo({ left: newScroll, behavior: 'smooth' });
+                    this.currentIndex = Math.round(newScroll / this.scrollAmount);
+                }
+                
+                this.updateSlideCounter();
+                this.updateNavigationButtons();
+                this.resetProgressIfPlaying();
+            }
+            
+            scrollPrev() {
+                const currentScroll = this.carousel.scrollLeft;
+                const newScroll = Math.max(currentScroll - this.scrollAmount, 0);
+                
+                // If we're at the beginning, scroll to the end
+                if (currentScroll <= 0) {
+                    this.carousel.scrollTo({ left: this.maxScrollLeft, behavior: 'smooth' });
+                    this.currentIndex = Math.floor(this.maxScrollLeft / this.scrollAmount);
+                } else {
+                    this.carousel.scrollTo({ left: newScroll, behavior: 'smooth' });
+                    this.currentIndex = Math.round(newScroll / this.scrollAmount);
+                }
+                
+                this.updateSlideCounter();
+                this.updateNavigationButtons();
+                this.resetProgressIfPlaying();
+            }
+            
+            goToCard(index) {
+                const scrollPosition = index * this.scrollAmount;
+                this.carousel.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+                this.currentIndex = index;
+                this.updateSlideCounter();
+                this.updateNavigationButtons();
+                this.resetProgressIfPlaying();
+            }
+            
+            resetProgressIfPlaying() {
+                if (this.isPlaying) {
+                    this.stopProgressBar();
+                    this.progressFill.style.width = '0%';
+                    setTimeout(() => this.startProgressBar(), 100);
+                }
+            }
+            
+            updateSlideCounter() {
+                const visibleCards = Math.floor(this.carousel.clientWidth / this.scrollAmount) || 1;
+                const totalViews = Math.ceil(this.totalCards / visibleCards);
+                const currentView = Math.floor(this.currentIndex / visibleCards) + 1;
+                this.slideCounter.textContent = `${currentView} of ${totalViews}`;
+            }
+            
+            updateNavigationButtons() {
+                this.prevBtn.disabled = this.carousel.scrollLeft <= 0;
+                this.nextBtn.disabled = this.carousel.scrollLeft >= this.maxScrollLeft;
+            }
+            
+            handleScroll() {
+                this.currentIndex = Math.round(this.carousel.scrollLeft / this.scrollAmount);
+                this.updateSlideCounter();
+                this.updateNavigationButtons();
+            }
+            
+            togglePlayPause() {
+                if (this.isPlaying) {
+                    this.pause();
+                } else {
+                    this.play();
+                }
+            }
+            
+            play() {
+                this.isPlaying = true;
+                this.startAutoRotation();
+                this.playPauseIcon.textContent = '⏸';
+                this.playPauseText.textContent = 'Pause';
+            }
+            
+            pause() {
+                this.isPlaying = false;
+                this.stopAutoRotation();
+                this.playPauseIcon.textContent = '▶';
+                this.playPauseText.textContent = 'Play';
+                this.progressFill.style.width = '0%';
+            }
+            
+            pauseOnHover() {
+                if (this.isPlaying) {
+                    this.stopAutoRotation();
+                    this.pauseIndicator.classList.add('show');
+                }
+            }
+            
+            resumeFromHover() {
+                if (this.isPlaying) {
+                    this.startAutoRotation();
+                    this.pauseIndicator.classList.remove('show');
+                }
+            }
+            
+            handleKeydown(e) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        this.scrollPrev();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        this.scrollNext();
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        this.togglePlayPause();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        this.goToCard(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        this.goToCard(this.totalCards - 1);
+                        break;
+                }
+            }
         }
+        
+        // Initialize carousel when DOM is loaded
+        let gridCarouselInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            gridCarouselInstance = new GridFlexboxCarousel('#gridCarousel');
+        });
     </script>
 </body>
 </html>
