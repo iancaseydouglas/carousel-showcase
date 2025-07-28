@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Carousel Showcase | Modern Implementation Comparison</title>
+    <meta name="description" content="Comprehensive showcase and comparison of three modern CSS carousel implementations: Scroll Snap, Radio Button, and Grid/Flexbox approaches.">
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__brand">
+                <h1 class="nav__title">CSS Carousel Showcase</h1>
+            </div>
+            <ul class="nav__menu">
+                <li><a href="#overview" class="nav__link">Overview</a></li>
+                <li><a href="#comparison" class="nav__link">Comparison</a></li>
+                <li><a href="#examples" class="nav__link">Examples</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero__title">Modern CSS Carousel Implementations</h1>
+                <p class="hero__subtitle">
+                    Explore three cutting-edge CSS carousel approaches: performance-optimized, 
+                    accessible, and production-ready solutions for 2025.
+                </p>
+                <div class="hero__actions">
+                    <a href="#examples" class="btn btn--primary">View Live Examples</a>
+                    <a href="#comparison" class="btn btn--secondary">Compare Features</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="section">
+            <div class="container">
+                <h2 class="section__title">Implementation Overview</h2>
+                <div class="grid grid--3">
+                    <div class="card">
+                        <div class="card__icon">🎯</div>
+                        <h3 class="card__title">CSS Scroll Snap</h3>
+                        <p class="card__description">
+                            Native browser scrolling with snap points. Excellent performance, 
+                            mobile-friendly touch support, and future-proof implementation.
+                        </p>
+                        <div class="card__metrics">
+                            <span class="metric metric--performance">Performance: ★★★★★</span>
+                            <span class="metric metric--accessibility">Accessibility: ★★★★☆</span>
+                            <span class="metric metric--compatibility">Compatibility: ★★★★☆</span>
+                        </div>
+                        <a href="scroll-snap.html" class="btn btn--outline">View Implementation</a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__icon">📻</div>
+                        <h3 class="card__title">Radio Button Control</h3>
+                        <p class="card__description">
+                            Pure CSS solution using radio buttons and :checked selectors. 
+                            Maximum browser compatibility with precise animation control.
+                        </p>
+                        <div class="card__metrics">
+                            <span class="metric metric--performance">Performance: ★★★★☆</span>
+                            <span class="metric metric--accessibility">Accessibility: ★★★★★</span>
+                            <span class="metric metric--compatibility">Compatibility: ★★★★★</span>
+                        </div>
+                        <a href="radio-button.html" class="btn btn--outline">View Implementation</a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__icon">🎨</div>
+                        <h3 class="card__title">Grid/Flexbox Interactive</h3>
+                        <p class="card__description">
+                            Rich interactive experiences using CSS Grid and Flexbox with hover effects. 
+                            Perfect for product showcases and galleries.
+                        </p>
+                        <div class="card__metrics">
+                            <span class="metric metric--performance">Performance: ★★★☆☆</span>
+                            <span class="metric metric--accessibility">Accessibility: ★★★☆☆</span>
+                            <span class="metric metric--compatibility">Compatibility: ★★★★★</span>
+                        </div>
+                        <a href="grid-flexbox.html" class="btn btn--outline">View Implementation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="section section--alt">
+            <div class="container">
+                <h2 class="section__title">Detailed Feature Comparison</h2>
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>CSS Scroll Snap</th>
+                                <th>Radio Button</th>
+                                <th>Grid/Flexbox</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Performance</strong></td>
+                                <td class="rating rating--excellent">Excellent</td>
+                                <td class="rating rating--good">Good</td>
+                                <td class="rating rating--fair">Fair-Good</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mobile Support</strong></td>
+                                <td class="rating rating--excellent">Native touch</td>
+                                <td class="rating rating--good">Click/tap only</td>
+                                <td class="rating rating--fair">Requires JS</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Browser Support</strong></td>
+                                <td class="rating rating--good">97%+ (modern)</td>
+                                <td class="rating rating--excellent">99%+ (universal)</td>
+                                <td class="rating rating--excellent">99%+ (universal)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>JavaScript Required</strong></td>
+                                <td class="rating rating--excellent">Optional</td>
+                                <td class="rating rating--excellent">None</td>
+                                <td class="rating rating--fair">Required for full UX</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="section">
+            <div class="container">
+                <h2 class="section__title">Live Implementation Examples</h2>
+                <p class="section__description">
+                    Click through each implementation to see them in action with consistent imagery 
+                    and professional styling.
+                </p>
+                
+                <div class="example-grid">
+                    <div class="example-card">
+                        <div class="example-content">
+                            <h3>CSS Scroll Snap Carousel</h3>
+                            <p>Native browser scrolling with smooth snap points and touch support.</p>
+                            <div class="example-features">
+                                <span class="feature-tag">Touch Gestures</span>
+                                <span class="feature-tag">Native Performance</span>
+                                <span class="feature-tag">Minimal Code</span>
+                            </div>
+                            <a href="scroll-snap.html" class="btn btn--primary">View Live Demo</a>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <div class="example-content">
+                            <h3>Radio Button Carousel</h3>
+                            <p>Pure CSS implementation with keyframe animations and accessible controls.</p>
+                            <div class="example-features">
+                                <span class="feature-tag">No JavaScript</span>
+                                <span class="feature-tag">Full Accessibility</span>
+                                <span class="feature-tag">Universal Support</span>
+                            </div>
+                            <a href="radio-button.html" class="btn btn--primary">View Live Demo</a>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <div class="example-content">
+                            <h3>Grid/Flexbox Interactive</h3>
+                            <p>Modern layout system with rich hover effects and interactive elements.</p>
+                            <div class="example-features">
+                                <span class="feature-tag">Hover Effects</span>
+                                <span class="feature-tag">Interactive UI</span>
+                                <span class="feature-tag">Modern Layout</span>
+                            </div>
+                            <a href="grid-flexbox.html" class="btn btn--primary">View Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h4>CSS Carousel Showcase</h4>
+                    <p>Modern, accessible, and performance-optimized carousel implementations for 2025.</p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 CSS Carousel Showcase. Built with modern web standards.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

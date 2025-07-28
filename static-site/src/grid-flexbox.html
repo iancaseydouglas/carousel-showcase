@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid/Flexbox Interactive Carousel Demo</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .grid-carousel {
+            position: relative;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin: 2rem auto;
+            max-width: 1000px;
+        }
+        
+        .carousel-track {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(280px, 1fr);
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .grid-card {
+            scroll-snap-align: center;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            min-width: 280px;
+        }
+        
+        .grid-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .card-image {
+            height: 160px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .grid-card:hover .card-image {
+            transform: scale(1.1);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--color-gray-900);
+            transition: color 0.3s ease;
+        }
+        
+        .grid-card:hover .card-content h3 {
+            color: var(--color-primary);
+        }
+        
+        .card-content p {
+            color: var(--color-gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .nav-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .nav-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn:hover {
+            background: var(--color-primary-dark);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__brand">
+                <h1 class="nav__title"><a href="index.html">← CSS Carousel Showcase</a></h1>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <div class="container">
+                <h1>Grid/Flexbox Interactive Carousel</h1>
+                <p>This carousel combines CSS Grid layout with rich hover effects and interactive elements.</p>
+                
+                <div class="grid-carousel">
+                    <div class="carousel-track" id="gridCarousel">
+                        <div class="grid-card">
+                            <div class="card-image">🎯</div>
+                            <div class="card-content">
+                                <h3>Modern Layout</h3>
+                                <p>CSS Grid provides flexible, responsive layout capabilities with precise control.</p>
+                                <div class="card-tags">
+                                    <span class="tag">CSS Grid</span>
+                                    <span class="tag">Responsive</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-card">
+                            <div class="card-image">✨</div>
+                            <div class="card-content">
+                                <h3>Rich Interactions</h3>
+                                <p>Hover effects and transitions create engaging user experiences.</p>
+                                <div class="card-tags">
+                                    <span class="tag">Hover Effects</span>
+                                    <span class="tag">Animations</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-card">
+                            <div class="card-image">🚀</div>
+                            <div class="card-content">
+                                <h3>Enhanced UX</h3>
+                                <p>Multiple items visible simultaneously for better content discovery.</p>
+                                <div class="card-tags">
+                                    <span class="tag">Multi-view</span>
+                                    <span class="tag">Discovery</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-card">
+                            <div class="card-image">🎨</div>
+                            <div class="card-content">
+                                <h3>Visual Appeal</h3>
+                                <p>Perfect for product showcases and portfolio presentations.</p>
+                                <div class="card-tags">
+                                    <span class="tag">Showcase</span>
+                                    <span class="tag">Portfolio</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-card">
+                            <div class="card-image">⚡</div>
+                            <div class="card-content">
+                                <h3>Performance</h3>
+                                <p>Hardware acceleration and CSS transforms for smooth animations.</p>
+                                <div class="card-tags">
+                                    <span class="tag">GPU</span>
+                                    <span class="tag">Smooth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-controls">
+                        <button class="nav-btn" onclick="scrollCarousel(-1)">←</button>
+                        <button class="nav-btn" onclick="scrollCarousel(1)">→</button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="btn btn--primary">← Back to Overview</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('gridCarousel');
+            const scrollAmount = 300;
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Scroll Snap Carousel Demo</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .demo-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 1rem;
+            padding: 1rem 0;
+            margin: 2rem 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .demo-carousel::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .demo-slide {
+            flex: 0 0 300px;
+            scroll-snap-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .demo-slide h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__brand">
+                <h1 class="nav__title"><a href="index.html">← CSS Carousel Showcase</a></h1>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <div class="container">
+                <h1>CSS Scroll Snap Carousel</h1>
+                <p>This carousel uses native browser scrolling with CSS scroll snap for smooth navigation.</p>
+                
+                <div class="demo-carousel">
+                    <div class="demo-slide">
+                        <h3>Slide 1</h3>
+                        <p>Native browser scrolling with smooth snap points. Excellent performance and mobile-friendly.</p>
+                    </div>
+                    <div class="demo-slide">
+                        <h3>Slide 2</h3>
+                        <p>Touch gestures work naturally on mobile devices without any additional JavaScript.</p>
+                    </div>
+                    <div class="demo-slide">
+                        <h3>Slide 3</h3>
+                        <p>Hardware acceleration and GPU optimization built into the browser.</p>
+                    </div>
+                    <div class="demo-slide">
+                        <h3>Slide 4</h3>
+                        <p>Future-proof implementation using modern web standards.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="btn btn--primary">← Back to Overview</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

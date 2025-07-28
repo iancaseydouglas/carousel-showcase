@@ -1,0 +1,37 @@
+.
+├── carousel_repo_generator.sh
+├── docker-compose.dev.yml
+├── docker-compose.yml
+├── docs
+│   └── SETUP.md
+├── Makefile
+├── nginx
+│   ├── dev.conf
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── sites-available
+│   │   └── default.conf
+│   └── ssl
+├── README.md
+├── static-site
+│   ├── Dockerfile
+│   ├── Dockerfile.dev
+│   └── src
+│       ├── assets
+│       │   ├── css
+│       │   │   ├── grid-flexbox.css
+│       │   │   ├── main.css
+│       │   │   ├── radio-button.css
+│       │   │   └── scroll-snap.css
+│       │   ├── images
+│       │   └── js
+│       │       ├── grid-carousel.js
+│       │       └── main.js
+│       ├── components
+│       ├── grid-flexbox.html
+│       ├── index.html
+│       ├── radio-button.html
+│       └── scroll-snap.html
+└── tree.txt
+
+12 directories, 23 files

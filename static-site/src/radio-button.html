@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Button Carousel Demo</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .radio-carousel {
+            position: relative;
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .carousel-radio {
+            display: none;
+        }
+        
+        .slides-container {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .slides-track {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+        
+        .radio-slide {
+            flex: 1;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .radio-slide h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        #slide-1:checked ~ .slides-container .slides-track {
+            transform: translateX(0%);
+        }
+        
+        #slide-2:checked ~ .slides-container .slides-track {
+            transform: translateX(-25%);
+        }
+        
+        #slide-3:checked ~ .slides-container .slides-track {
+            transform: translateX(-50%);
+        }
+        
+        #slide-4:checked ~ .slides-container .slides-track {
+            transform: translateX(-75%);
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+        
+        .control-label {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .control-label:hover {
+            background: #adb5bd;
+        }
+        
+        #slide-1:checked ~ .carousel-controls .control-label[for="slide-1"],
+        #slide-2:checked ~ .carousel-controls .control-label[for="slide-2"],
+        #slide-3:checked ~ .carousel-controls .control-label[for="slide-3"],
+        #slide-4:checked ~ .carousel-controls .control-label[for="slide-4"] {
+            background: var(--color-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__brand">
+                <h1 class="nav__title"><a href="index.html">← CSS Carousel Showcase</a></h1>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <div class="container">
+                <h1>Radio Button Carousel</h1>
+                <p>This carousel uses pure CSS with radio buttons for state management. No JavaScript required!</p>
+                
+                <div class="radio-carousel">
+                    <input type="radio" name="carousel-control" id="slide-1" class="carousel-radio" checked>
+                    <input type="radio" name="carousel-control" id="slide-2" class="carousel-radio">
+                    <input type="radio" name="carousel-control" id="slide-3" class="carousel-radio">
+                    <input type="radio" name="carousel-control" id="slide-4" class="carousel-radio">
+                    
+                    <div class="slides-container">
+                        <div class="slides-track">
+                            <div class="radio-slide">
+                                <h3>Pure CSS Solution</h3>
+                                <p>No JavaScript required. Uses radio buttons and CSS :checked selectors for state management.</p>
+                            </div>
+                            <div class="radio-slide">
+                                <h3>Maximum Compatibility</h3>
+                                <p>Works in virtually all browsers, including older versions that don't support modern features.</p>
+                            </div>
+                            <div class="radio-slide">
+                                <h3>Precise Control</h3>
+                                <p>Keyframe animations provide exact control over timing and easing functions.</p>
+                            </div>
+                            <div class="radio-slide">
+                                <h3>Accessible by Default</h3>
+                                <p>Radio buttons provide semantic meaning and natural keyboard navigation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <label for="slide-1" class="control-label">1</label>
+                        <label for="slide-2" class="control-label">2</label>
+                        <label for="slide-3" class="control-label">3</label>
+                        <label for="slide-4" class="control-label">4</label>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="btn btn--primary">← Back to Overview</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
