@@ -1,201 +1,165 @@
-# Carousel Showcase
 
-## Project Overview
+# CSS Carousel Showcase
 
-This is a complete Docker Compose setup for a carousel showcase website featuring three different CSS carousel implementations. The architecture uses Nginx as a reverse proxy with a static website container, optimized for both development and production environments.
+A demonstration of three modern CSS carousel implementations with auto-rotation, hover pause functionality, and accessibility features.
 
-## Architecture
+## 🚀 Quick Start
 
-- **Nginx Reverse Proxy**: Load balancer and SSL termination
-- **Static Website Container**: Serves HTML/CSS/JS files  
-- **Development Environment**: Hot reload and live development
-- **Production Environment**: Performance optimized with caching
+### Option 1: Docker with Makefile (Recommended)
 
-## Project Structure
+**Prerequisites:** Git, Docker, Docker Compose, and Make installed
+
+```bash
+# Clone or download the project
+git clone https://github.com/iancaseydouglas/carousel-showcase.git
+cd carousel-showcase
+
+# Show available commands
+make help
+
+# Build and start development server
+make build
+make up
+
+# Or start in background
+make dev
+
+# View logs
+make logs
+
+# Stop containers
+make down
+```
+
+### Option 2: Docker Compose Direct
+
+**Prerequisites:** Docker and Docker Compose installed
+
+```bash
+# Clone or download the project
+git clone https://github.com/iancaseydouglas/carousel-showcase.git
+cd carousel-showcase
+
+# Start development server
+docker-compose -f docker-compose.dev.yml up --build
+
+# Or run in background
+docker-compose -f docker-compose.dev.yml up -d
+
+# Stop containers
+docker-compose -f docker-compose.dev.yml down
+```
+
+### Option 3: Local Web Server
+
+**Prerequisites:** Python, Node.js, or any local web server
+
+#### Using Python (Built-in)
+```bash
+# Navigate to the static site directory
+cd carousel-showcase/static-site/src
+
+# Python 3
+python -m http.server 3000
+
+# Python 2
+python -m SimpleHTTPServer 3000
+
+# Open browser
+open http://localhost:3000
+```
+
+#### Using Node.js
+```bash
+# Install a simple server globally
+npm install -g http-server
+
+# Navigate to the static site directory
+cd carousel-showcase/static-site/src
+
+# Start server
+http-server -p 3000
+
+# Open browser
+open http://localhost:3000
+```
+
+## 🎯 What's Included
+
+### Three Carousel Implementations
+
+1. **CSS Scroll Snap Carousel** (`/scroll-snap.html`)
+   - Native browser scrolling with snap points
+   - Excellent performance and mobile support
+   - Auto-rotation with smooth progress indicator
+
+2. **Radio Button Carousel** (`/radio-button.html`)
+   - Pure CSS core with JavaScript enhancements
+   - Maximum browser compatibility
+   - Accessible radio button controls
+
+3. **Grid/Flexbox Interactive Carousel** (`/grid-flexbox.html`)
+   - Modern layout with rich hover effects
+   - Multiple cards visible simultaneously
+   - Advanced animations and interactions
+
+### Features
+
+- ✅ **Auto-rotation** (4-5 second intervals)
+- ✅ **Hover to pause** functionality
+- ✅ **Keyboard navigation** (arrow keys, spacebar)
+- ✅ **Touch/swipe gestures** on mobile
+- ✅ **Accessibility compliant** (WCAG 2.1)
+- ✅ **Responsive design** for all screen sizes
+- ✅ **Reduced motion support**
+- ✅ **High contrast mode** compatibility
+
+## 🛠️ Development
+
+### Makefile Commands
+
+```bash
+make help      # Show all available commands
+make build     # Build Docker containers
+make up        # Start development environment
+make dev       # Start development (detached)
+make prod      # Start production environment
+make down      # Stop all containers
+make logs      # View container logs
+make clean     # Remove containers and images
+```
+
+### File Structure
 
 ```
 carousel-showcase/
-├── docker-compose.yml              # Production configuration
-├── docker-compose.dev.yml          # Development configuration
-├── README.md                       # Setup documentation
+├── Makefile                        # Build automation
+├── docker-compose.yml             # Production config
+├── docker-compose.dev.yml         # Development config
 ├── nginx/
-│   ├── nginx.conf                  # Main Nginx configuration
-│   ├── sites-available/
-│   │   └── default.conf           # Site-specific configuration
-│   └── ssl/                       # SSL certificates (production)
-├── static-site/
-│   ├── Dockerfile                 # Static site container
-│   ├── Dockerfile.dev             # Development container
-│   └── src/
-│       ├── index.html             # Main landing page
-│       ├── scroll-snap.html       # CSS Scroll Snap showcase
-│       ├── radio-button.html      # Radio Button carousel
-│       ├── grid-flexbox.html      # Grid/Flexbox carousel
-│       ├── assets/
-│       │   ├── css/
-│       │   │   ├── main.css       # Global styles
-│       │   │   ├── scroll-snap.css
-│       │   │   ├── radio-button.css
-│       │   │   └── grid-flexbox.css
-│       │   ├── js/
-│       │   │   ├── main.js        # Global JavaScript
-│       │   │   └── grid-carousel.js
-│       │   └── images/            # Sample images
-│       └── components/            # Reusable components
-└── docs/
-    └── SETUP.md                   # Detailed setup guide
+│   ├── nginx.conf                 # Main Nginx config
+│   └── dev.conf                   # Development config
+└── static-site/src/
+    ├── index.html                 # Main showcase page
+    ├── scroll-snap.html           # Scroll snap demo
+    ├── radio-button.html          # Radio button demo
+    ├── grid-flexbox.html          # Grid/flexbox demo
+    └── assets/
+        ├── css/main.css           # Global styles
+        └── js/main.js             # Global JavaScript
 ```
 
-## Setup Instructions
+## 🌐 Browser Support
 
-### Quick Start (Development)
-```bash
-# Clone or create the project structure
-mkdir carousel-showcase && cd carousel-showcase
+- **Modern browsers**: Full feature support
+- **IE 11+**: Basic functionality with graceful degradation
+- **Mobile browsers**: Native touch support
+- **Screen readers**: Full accessibility support
 
-# Start development environment
-docker-compose -f docker-compose.dev.yml up --build
+## 📱 Access
 
-# Access the site at http://localhost:3000
-```
+Once running, access the showcase at:
+- **Development**: http://localhost:3000
+- **Production**: http://localhost
 
-### Production Deployment
-```bash
-# Build and start production environment
-docker-compose up --build -d
-
-# Access the site at http://localhost
-```
-
-### Development Workflow
-```bash
-# Development with hot reload
-docker-compose -f docker-compose.dev.yml up
-
-# View logs
-docker-compose -f docker-compose.dev.yml logs -f
-
-# Stop services
-docker-compose -f docker-compose.dev.yml down
-
-# Rebuild after major changes
-docker-compose -f docker-compose.dev.yml up --build
-```
-
-## Key Features Implemented
-
-### 🚀 **Performance Optimizations**
-- Nginx reverse proxy with caching
-- Gzip compression enabled
-- Static asset optimization
-- Resource limits and health checks
-- Core Web Vitals optimization
-
-### 🔒 **Security Features**
-- Security headers implementation
-- Rate limiting configuration
-- Non-root container users
-- Read-only file systems where appropriate
-- SSL/TLS ready configuration
-
-### ♿ **Accessibility Compliance**
-- WCAG 2.1 AA compliant
-- Semantic HTML structure
-- Keyboard navigation support
-- Screen reader optimization
-- Focus management
-- Reduced motion support
-
-### 📱 **Mobile-First Design**
-- Responsive breakpoints
-- Touch-friendly interface
-- Progressive enhancement
-- Mobile performance optimization
-
-### 🎨 **Modern CSS Features**
-- CSS Custom Properties (variables)
-- CSS Grid and Flexbox layouts
-- Container queries ready
-- Modern color schemes
-- Dark mode support
-
-## **Makefile Features**
-
-### 🔧 **Development Commands**
-
-- `make dev` - Start development with hot reload
-- `make dev-detached` - Run development in background
-- `make dev-logs` - View development logs
-- `make dev-shell` - Access container shell
-- `make nginx-config-test` - Test your nginx configurations
-- `make urls` - Shows all available demo pages
-- `make backup` - Creates timestamped backups of src/ and nginx/
-- `make restore BACKUP_FILE=static-site_20250128_143000.tar.gz` - Restore website
-- `make restore BACKUP_FILE=nginx-config_20250128_143000.tar.gz` - Restore nginx
-
-### 🚀 **Production Commands**
-- `make prod` - Start production environment
-- `make prod-logs` - View production logs  
-- `make prod-restart` - Restart production services
-
-### 🏗️ **Build & Maintenance**
-- `make build` - Build all Docker images
-- `make clean` - Clean up containers and volumes
-- `make reset` - Clean and rebuild everything
-- `make test` - Run health checks
-
-### 📊 **Monitoring & Debug**
-- `make status` - Show service status
-- `make stats` - Show resource usage
-- `make nginx-config-test` - Test Nginx config
-- `make benchmark` - Performance testing
-
-### 💾 **Backup & Restore**
-- `make backup` - Create volume backups
-- `make restore BACKUP_FILE=filename` - Restore from backup
-
-### 🔒 **Security & Quality**
-- `make lint-docker` - Lint Dockerfiles with hadolint
-- `make security-scan` - Security scan with trivy
-- `make ssl-setup` - Generate SSL certificates
-
-### 📦 **Deployment**
-- `make tag` - Tag images for registry
-- `make push` - Push to container registry
-- `make deploy` - Deploy to production
-
-## **Usage Examples**
-
-```bash
-# Start development
-make dev
-
-# Start production in background  
-make prod
-
-# Run health checks
-make test
-
-# Clean up everything
-make clean-all
-
-# Create backup
-make backup
-
-# Restore from backup
-make restore BACKUP_FILE=static-content_20250101_120000.tar.gz
-
-# Show all available commands
-make help
-```
-
-### **Helpful Makefile Features**
-
-1. **Color-coded output** for better readability
-2. **Comprehensive help system** with `make help`
-3. **Environment detection** - automatically detects running services
-4. **Safety checks** - confirms before destructive operations
-5. **Resource monitoring** - shows container stats and health
-6. **Backup automation** - timestamped backups with easy restore
-7. **Performance testing** - built-in benchmarking with Apache Bench
-8. **Security scanning** - integration with security tools
+Navigate between different carousel implementations using the main page or direct URLs.
